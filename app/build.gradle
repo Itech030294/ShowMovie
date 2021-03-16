@@ -1,0 +1,94 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId "com.showmovie.moviedb"
+        minSdkVersion 17
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        resConfigs "en"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+    configurations {
+        //all*.exclude module: 'fragment'
+        //all*.exclude module: 'vectordrawable'
+        all*.exclude module: 'customview'
+    }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+}
+
+dependencies {
+    def paging_version = "1.0.1"
+    def lifecycle_version = "2.1.0"
+    def recyclerView_version = "1.2.0-alpha01"
+    def retrofit_version = "2.4.0"
+    def glide_version = "4.3.1"
+    def BUTTER_KNIFE_VERSION="8.4.0"
+    def RX_BINDING_VERSION="0.4.0"
+    def SUPPORT_LIB_VERSION="25.0.0"
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    //implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+
+    implementation "androidx.recyclerview:recyclerview:$recyclerView_version"
+
+    //paging
+    implementation "android.arch.paging:runtime:$paging_version"
+
+    //viewModel & liveData & lifeCycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+
+    //Networking
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+
+    //rx
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+    //Image Loader
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+
+    //https://github.com/JakeWharton/RxBinding
+    implementation "com.jakewharton.rxbinding:rxbinding:$RX_BINDING_VERSION"
+    //https://github.com/JakeWharton/butterknife
+    implementation "com.jakewharton:butterknife:$BUTTER_KNIFE_VERSION"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
+    implementation "com.android.support:design:$SUPPORT_LIB_VERSION"
+    implementation "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION"
+
+}
